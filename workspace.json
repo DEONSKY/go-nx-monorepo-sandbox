@@ -4,7 +4,6 @@
   "projects": {
     "api": "apps/api",
     "api2": "apps/api2",
-    "github.com-deonsky-go-sandbox": "apps/github.com/deonsky/go-sandbox",
     "go-sandbox": {
       "projectType": "application",
       "root":"apps/go-sandbox",
