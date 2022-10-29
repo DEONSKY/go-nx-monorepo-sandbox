@@ -1,5 +1,39 @@
 {
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
-  "projects": {}
+  "projects": {
+    "api": "apps/api",
+    "api2": "apps/api2",
+    "github.com-deonsky-go-sandbox": "apps/github.com/deonsky/go-sandbox",
+    "go-sandbox": {
+      "projectType": "application",
+      "root":"apps/go-sandbox",
+      "sourceRoot": "apps/go-sandbox",
+      "architect": {
+        "build": {
+          "builder": "@nx-go/nx-go:build",
+          "options": {
+            "outputPath": "dist/apps/go-sandbox",
+            "main": "apps/go-sandbox/main.go"
+          }
+        },
+        "serve": {
+          "builder": "@nx-go/nx-go:serve",
+          "options": {
+            "main": "apps/go-sandbox/main.go"
+          }
+        },
+        "test": {
+          "builder": "@nx-go/nx-go:test"
+        },
+        "lint": {
+          "builder": "@nx-go/nx-go:lint"
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
+  },
+  "schematics": {}
 }

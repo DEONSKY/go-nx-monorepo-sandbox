@@ -1,7 +1,8 @@
 {
   "recommendations": [
-    
-    "nrwl.angular-console",
-    "esbenp.prettier-vscode"
+  "nrwl.angular-console",
+  "ms-vscode.vscode-typescript-tslint-plugin",
+  "esbenp.prettier-vscode"
   ]
-}
+  
+  }

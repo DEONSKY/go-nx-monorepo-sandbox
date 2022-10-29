@@ -1,0 +1,855 @@
+definitions:
+  helper.EmptyObj:
+    type: object
+  helper.Response:
+    properties:
+      data: {}
+      errors: {}
+      message: {}
+    type: object
+  model.Issue:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      issueForeignId:
+        type: string
+      parentIssueID:
+        type: integer
+      progress:
+        type: integer
+      spendingTime:
+        type: integer
+      status:
+        type: integer
+      targetTime:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  model.IssueComment:
+    properties:
+      context:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  model.Project:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  model.Subject:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      repoId:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  model.User:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      subjects:
+        items:
+          $ref: '#/definitions/model.Subject'
+        type: array
+      token:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  request.IssueCommentCreateRequest:
+    properties:
+      context:
+        type: string
+      issueID:
+        type: integer
+    type: object
+  request.IssueCreateRequest:
+    properties:
+      assignieID:
+        type: integer
+      description:
+        maxLength: 255
+        type: string
+      issueForeignId:
+        type: string
+      parentIssueID:
+        type: integer
+      reporterID:
+        type: integer
+      status:
+        type: integer
+      subjectID:
+        type: integer
+      targetTime:
+        type: integer
+      title:
+        maxLength: 32
+        type: string
+    required:
+    - description
+    - subjectID
+    - title
+    type: object
+  request.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  request.ProjectCreateRequest:
+    properties:
+      description:
+        maxLength: 255
+        type: string
+      title:
+        maxLength: 32
+        type: string
+    required:
+    - description
+    - title
+    type: object
+  request.RegisterRequest:
+    properties:
+      email:
+        type: string
+      name:
+        maxLength: 32
+        type: string
+      password:
+        maxLength: 32
+        minLength: 8
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  request.SubjectCreateRequest:
+    properties:
+      description:
+        maxLength: 255
+        type: string
+      projectID:
+        type: integer
+      title:
+        maxLength: 32
+        type: string
+    required:
+    - description
+    - projectID
+    - title
+    type: object
+  response.IssueKanbanResponse:
+    properties:
+      issues:
+        items:
+          $ref: '#/definitions/response.IssueResponse'
+        type: array
+      status:
+        $ref: '#/definitions/response.StatusResponse'
+    type: object
+  response.IssueResponse:
+    properties:
+      assignieID:
+        type: integer
+      createdAt:
+        type: string
+      dependentIssues:
+        items:
+          $ref: '#/definitions/response.LeafIssueResponse'
+        type: array
+      description:
+        type: string
+      id:
+        type: integer
+      issueForeignID:
+        type: string
+      issues:
+        description: Comments        []*IssueCommentResponse `gorm:"foreignkey:IssueID;"
+          json:"issueComments"`
+        items:
+          $ref: '#/definitions/response.LeafIssueResponse'
+        type: array
+      parentIssueID:
+        type: integer
+      reporterID:
+        type: integer
+      status:
+        $ref: '#/definitions/response.StatusResponse'
+      statusID:
+        type: integer
+      subjectID:
+        type: integer
+      targetTime:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  response.LeafIssueResponse:
+    properties:
+      assignieID:
+        type: integer
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      issueForeignID:
+        type: string
+      parentIssueID:
+        type: integer
+      reporterID:
+        type: integer
+      status:
+        $ref: '#/definitions/response.StatusResponse'
+      statusID:
+        type: integer
+      subjectID:
+        type: integer
+      targetTime:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  response.ProjectNavTreeResponse:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      subjects:
+        items:
+          $ref: '#/definitions/response.SubjectNavTreeResponse'
+        type: array
+      title:
+        type: string
+    type: object
+  response.StatusResponse:
+    properties:
+      hexCode:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  response.SubjectNavTreeResponse:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      project_id:
+        type: integer
+      title:
+        type: string
+    type: object
+  response.UserOptionResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+info:
+  contact:
+    email: your@mail.com
+    name: API Support
+  description: This is an auto-generated API Docs.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: API
+  version: "1.0"
+paths:
+  /add-issue-dependency/{issue_id}/{dependent_issue_id}:
+    put:
+      consumes:
+      - application/json
+      description: Adds assocation with issue and dependent issue
+      parameters:
+      - description: Issue ID
+        in: path
+        name: issue_id
+        required: true
+        type: string
+      - description: Dependent Issue ID
+        in: path
+        name: dependent_issue_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Issue'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/helper.EmptyObj'
+                  type: array
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Adds assocation with issue and dependent issue
+      tags:
+      - Issues
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: loginRequest
+        in: body
+        name: Auth
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.User'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/helper.EmptyObj'
+              type: object
+      summary: Login
+      tags:
+      - auth
+  /api/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Regişter
+      parameters:
+      - description: registerRequest
+        in: body
+        name: Auth
+        required: true
+        schema:
+          $ref: '#/definitions/request.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.User'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/helper.EmptyObj'
+              type: object
+      summary: Register
+      tags:
+      - auth
+  /api/issue:
+    get:
+      consumes:
+      - application/json
+      description: GetIssues is a function to get all issues data from database with
+        dynamic query parameters
+      parameters:
+      - in: query
+        name: assignieID
+        type: integer
+      - in: query
+        name: getOnlyOrphans
+        type: boolean
+      - in: query
+        name: parentIssueID
+        type: integer
+      - in: query
+        name: projectID
+        type: integer
+      - in: query
+        name: reporterID
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        name: subjectID
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.IssueResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/helper.EmptyObj'
+                  type: array
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get all issues with query parameters
+      tags:
+      - Issues
+    post:
+      consumes:
+      - application/json
+      description: Creates new issue
+      parameters:
+      - description: createIssues
+        in: body
+        name: Issue
+        required: true
+        schema:
+          $ref: '#/definitions/request.IssueCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Issue'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/helper.EmptyObj'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create new Issue
+      tags:
+      - Issues
+  /api/issue-comment:
+    post:
+      consumes:
+      - application/json
+      description: Creates new IssueComment
+      parameters:
+      - description: createIssues
+        in: body
+        name: Issue
+        required: true
+        schema:
+          $ref: '#/definitions/request.IssueCommentCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.IssueComment'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/helper.EmptyObj'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create new IssueComment
+      tags:
+      - IssueComments
+  /api/issue/kanban:
+    get:
+      consumes:
+      - application/json
+      description: Get all issues as Kanban Format with query parameters
+      parameters:
+      - in: query
+        name: assignieID
+        type: integer
+      - in: query
+        name: getOnlyOrphans
+        type: boolean
+      - in: query
+        name: parentIssueID
+        type: integer
+      - in: query
+        name: projectID
+        type: integer
+      - in: query
+        name: reporterID
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        name: subjectID
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.IssueKanbanResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/helper.EmptyObj'
+                  type: array
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get all issues as Kanban Format with query parameters
+      tags:
+      - Issues
+  /api/project:
+    post:
+      consumes:
+      - application/json
+      description: Adds new project to database
+      parameters:
+      - description: Create Project
+        in: body
+        name: Project
+        required: true
+        schema:
+          $ref: '#/definitions/request.ProjectCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Project'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Insert Project
+      tags:
+      - project
+  /api/project/sidenav-options/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Returns projects that the user is a member of, with subjects
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.ProjectNavTreeResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/helper.EmptyObj'
+                  type: array
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Returns projects that the user is a member of, with subjects
+      tags:
+      - project
+  /api/subject:
+    post:
+      consumes:
+      - application/json
+      description: Adds new subject to database
+      parameters:
+      - description: Create Subject
+        in: body
+        name: Subject
+        required: true
+        schema:
+          $ref: '#/definitions/request.SubjectCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Subject'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Insert Subject
+      tags:
+      - Subject
+  /api/subject/{subject_id}/{user_id}:
+    put:
+      consumes:
+      - application/json
+      description: Creates subject - user many2many association
+      parameters:
+      - description: Subject ID
+        in: path
+        name: subject_id
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Subject'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Creates subject - user many2many association
+      tags:
+      - Subject
+  /api/subject/user-options/{subject_id}}:
+    get:
+      consumes:
+      - application/json
+      description: Gets subject user options by subject id
+      parameters:
+      - description: Subject ID
+        in: path
+        name: subject_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserOptionResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Gets subject user options by subject id
+      tags:
+      - Subject
+  /assignie-user/{issue_id}/{user_id}:
+    put:
+      consumes:
+      - application/json
+      description: Adds assocation with issue and dependent issue
+      parameters:
+      - description: Issue ID
+        in: path
+        name: issue_id
+        required: true
+        type: string
+      - description: Assignie User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Issue'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/helper.EmptyObj'
+                  type: array
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Adds assocation between issue and assigned user
+      tags:
+      - Issues
+  /v1/books:
+    get:
+      consumes:
+      - application/json
+      description: Get all books
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "503":
+          description: ""
+      summary: Get all books
+      tags:
+      - books
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
